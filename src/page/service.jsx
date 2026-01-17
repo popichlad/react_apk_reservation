@@ -68,7 +68,9 @@ const Service = () => {
           </article>
         ))}
       </div>
+       
     </section>
+    
   )
 }
 

@@ -1,19 +1,22 @@
-import react from 'react'
+import React from 'react'
 import Reservation from './page/Reservation'
 import Contact from './page/Contact'
 import Service from './page/service';
 import {BrowserRouter, Routes, Route } from "react-router-dom";
 import NotFound from './page/NotFound';
 import ServiceDetail from './page/ServiceDetail';
+import AppBar from'./components/AppBar';
 
 // import des pages et de comande qui nous pertra d'utilser react dans le code
 
 
 
 const App = () => {
-  return (
+    return( 
     <BrowserRouter>
+   <AppBar/>
     <Routes>
+    
     <Route path ={'/'}element={<Reservation/>}/>
     <Route path ={'contact'}element={<Contact/>}/>
     <Route path ={'Service'}element={<Service/>}/>

@@ -52,12 +52,10 @@ function Reservation() {
 // 
   return (
     <div className="app-container">
-    <Link to={"/"}> accueil </Link>
-    <Link to={"/Contact"}> Contact </Link>
-    <Link to={"/Service"}> service </Link>
     
     
-      
+    
+  
 
       {/* ===== FORMULAIRE ===== */}
       <section className="reservation-section">
@@ -65,9 +63,9 @@ function Reservation() {
 
         <div className="formulaire" id="formulaire-reservation">
           <div className="liens">
-          <Link to={"/"}> accueil </Link>
+          {/* <Link to={"/"}> accueil </Link>
     <Link to={"/Contact"}> Contact </Link>
-    <Link to={"/Service"}> service </Link>
+    <Link to={"/Service"}> service </Link> */}
     
         </div>
           <h2 className="form-title">Formulaire de réservation</h2>
@@ -168,6 +166,7 @@ function Reservation() {
           }}
         >
           Enregistrer
+          <span className="btn-shin"></span>
         </button>
 
       </section>
@@ -190,6 +189,10 @@ function Reservation() {
               <p className="reservation-name">
                 {reservation.nomComplet}
               </p>
+               <p className="reservation-cni">
+                {reservation.numero}
+              </p>
+
 
               <p className="reservation-room">
                 {reservation.chambre.type}
@@ -232,7 +235,7 @@ function Reservation() {
               </button>
 
               <button
-                className="btn btn-danger btn-cancel"
+                className="btn btn-danger btn-cance"
                 onClick={() =>
                   suprimer({
                   
