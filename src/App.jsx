@@ -11,9 +11,11 @@ import AppBar from'./components/AppBar';
 
 
 
+
 const App = () => {
     return( 
-    <BrowserRouter>
+    <BrowserRouter> 
+
    <AppBar/>
     <Routes>
     

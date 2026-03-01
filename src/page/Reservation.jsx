@@ -1,6 +1,7 @@
-import { useState } from 'react' 
+import { useEffect, useState } from 'react' 
 import '../App.css'
 import{Link} from 'react-router-dom'
+import api from '../components/api/axios';
 
 function Reservation() {
 // Déclaration de varible de type table qui contien des chambres
@@ -19,35 +20,58 @@ function Reservation() {
   const [reservations, setReservation] = useState([]);
 
 
-  function ajouter({ nomComplet, numero, numeroCENI, duree, chambreid }) {
-    const reservation = {
-      id: Date.now(),
-      date: Date.now(),
-      nomComplet,
-      numero,
-      numeroCENI,
-      duree,
-      statut: "En attente",
-      chambre: CHAMBRES.find(chambre => chambre.id == chambreid)
-    };
-    setReservation([...reservations, reservation]);
-  }
+  useEffect(() => {
+  api.get('/reservations')
+  .then(response => {
+  console.log(response)
+  setReservation(response.data)})
+  },[])
+
+  function changerStatut({ id, NouveauStatut }) {
+  api.patch(`/reservations/${id}`, {
+    statut: NouveauStatut
+  })
+  .then(response => {
+    const reservationsMisAjour = reservations.map(reservation =>
+      reservation.id === id ? response.data : reservation
+    )
+    setReservation(reservationsMisAjour)
+  })
+  .catch(error => {
+    console.error("Erreur lors du changement de statut", error)
+  })
+}
+
+
+
+ 
   //  map permet de parcourire une iste
 
-  function changerStatut({ NouveauStatut, id }) {
-    const reservationsMisAjour = reservations.map(reservation =>
-      reservation.id == id
-        ? { ...reservation, statut: NouveauStatut }
-        : reservation
-    );
-    setReservation(reservationsMisAjour);
-  }
+  
 //  la metho filter de la fonction permet de filter les element apres verifivation avec ! qui veux dire saufe element qui est = id ce qui qui fait que ca ne saffiche pqs et suprimer l'id. il filtre et retourne unnouveaux tablo
-  function suprimer({id}) {
-    const reservationsMisAjour = reservations .filter (reservation => reservation.id!= id);
-    setReservation(reservationsMisAjour)
+  // function suprimer({id}) {
+  //   const reservationsMisAjour = reservations .filter (reservation => reservation.id!= id);
+  //   setReservation(reservationsMisAjour)
     
+  // }
+  function suprimer({ id }) {
+  if (!window.confirm("Voulez-vous vraiment supprimer cette réservation ?")) {
+    return
   }
+
+  api.delete(`/reservations/${id}`)
+    .then(() => {
+      const reservationsMisAjour = reservations.filter(
+        reservation => reservation.id !== id
+      )
+      setReservation(reservationsMisAjour)
+    })
+    // 
+    .catch(error => {
+      console.error("Erreur lors de la suppression", error)
+    })
+}
+
 //  une methode cest une fontion dune classe : find
 // 
   return (
@@ -64,7 +88,7 @@ function Reservation() {
         <div className="formulaire" id="formulaire-reservation">
           <div className="liens">
           {/* <Link to={"/"}> accueil </Link>
-    <Link to={"/Contact"}> Contact </Link>
+    <Link to={"/Contact"}> Contact </Link>  njjjjjjk-è èttttttttttttttttttvè     
     <Link to={"/Service"}> service </Link> */}
     
         </div>
@@ -153,17 +177,39 @@ function Reservation() {
           className="btn btn-primary btn-submit"
           id="btn-enregistrer"
           onClick={() => {
-            if (nomComplet =="" || numero == "" || numeroCENI == "" || chambreid =="" || duree ==0)
-            {alert("entre vos info");
-              return;
-            }
-            ajouter({ nomComplet, numero, numeroCENI, duree, chambreid });
-            setNomComplet('');
-            setNumero('');
-            setNumeroCENI('');
-            setDuree('');
-            setChambreId('');
-          }}
+  if (
+    nomComplet === "" ||
+    numero === "" ||
+    numeroCENI === "" ||
+    chambreid === "" ||
+    duree === 0
+  ) {
+    alert("Entrez vos informations")
+    return
+  }
+
+  const nouvelleReservation = {
+    date: Date.now(),
+    nomComplet,
+    numero,
+    numeroCENI,
+    duree,
+    statut: "En attente",
+    chambre: CHAMBRES.find(chambre => chambre.id == chambreid)
+  }
+
+  api.post('/reservations', nouvelleReservation)
+    .then(response => {
+      setReservation([...reservations, response.data])
+      setNomComplet('')
+      setNumero('')
+      setNumeroCENI('')
+      setDuree(0)
+      setChambreId('')
+    })
+    .catch(err => console.error(err))
+}}
+
         >
           Enregistrer
           <span className="btn-shin"></span>
@@ -212,12 +258,12 @@ function Reservation() {
 
               <button
                 className="btn btn-success btn-confirm"
-                onClick={() =>
+                onClick={() =>{
                   changerStatut({
                     id: reservation.id,
                     NouveauStatut: "Confirmé"
                   })
-                }
+                }}
               >
                 Confirmer
               </button>

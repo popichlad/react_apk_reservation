@@ -45,9 +45,14 @@ const ServiceDetail = () => {
 
   return (
     <div>
-      <p>{service.id}</p> 
+      <p>{service.id}</p>
+      <p>{service.title}</p>
+      <p>{service.description}</p>
+    
+    
     </div>
   )
+  
 }
 
 export default ServiceDetail

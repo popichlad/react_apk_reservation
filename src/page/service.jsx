@@ -1,39 +1,24 @@
-import React from 'react'
+import React, { useEffect, useState} from 'react'
 import '../App.css'
 import { Link } from 'react-router-dom'
+import api from '../components/api/axios';
 // impor de la commande qui nous permet d'utiliser les balise de rez
-
+// on utiliseuse useeffet pou declancer une action apres un changement d'etat
 const Service = () => {
-  const services = [
-    {
-      id: 1,
-      title: 'Chambres & Suites',
-      description:
-        'Des chambres modernes et confortables conçues pour votre bien-être et votre tranquillité.',
-      icon: '🛏️'
-    },
-    {
-      id: 2,
-      title: 'Restaurant & Bar',
-      description:
-        'Une cuisine raffinée et des boissons sélectionnées pour une expérience gastronomique unique.',
-      icon: '🍽️'
-    },
-    {
-      id: 3,
-      title: 'Salle de Conférence',
-      description:
-        'Des espaces équipés pour vos réunions, formations et événements professionnels.',
-      icon: '🏢'
-    },
-    {
-      id: 4,
-      title: 'Service Client 24h/24',
-      description:
-        'Une équipe disponible à tout moment pour répondre à vos besoins.',
-      icon: '🛎️'
-    }
-  ]
+  const[ services, setservice]= useState([])
+  useEffect(() => {
+    api.get('/services').then(response => {
+      console.log(response)
+      setservice(response.data)
+    })
+    // .then = apres avoir
+    // '/services' cest le andpoint d'acces a l'api
+    // responce la reponse  apres la requette
+
+
+  },[]
+)
+  
 
   return (
     <section className="hotel-services">

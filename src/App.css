@@ -314,7 +314,7 @@ option { color: black; }
   --gold: linear-gradient(135deg, #d4af37 0%, #f9e29c 50%, #b8860b 100%);
   --dark-navy: #0a1128;
   --soft-white: #f8f9fa;
-  --card-bg: rgba(255, 255, 255, 0.03);
+  --card-bg: rgb(37, 5, 5);
 }
 
 .hotel-services {
@@ -331,8 +331,8 @@ option { color: black; }
 }
 
 .hotel-title {
-  font-family: 'Bright DEMO' ;
-  font-size: 3.5rem;
+  font-family: 'african', ;
+  font-size: 7.5rem;
   margin-bottom: 15px;
   background: var(--gold);
   -webkit-background-clip: text;
@@ -370,7 +370,7 @@ option { color: black; }
 
 /* --- SERVICE CARD --- */
 .hotel-service-card {
-  
+  background: var(--card-bg);
   padding: 40px 30px;
   border-radius: 20px;
   border: 1px solid rgba(212, 175, 55, 0.1);
